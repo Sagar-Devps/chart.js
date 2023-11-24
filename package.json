@@ -1,0 +1,14 @@
+{
+  "name": "ad189f0d65d5cc00",
+  "main": "ad189f0d65d5cc00@171.js",
+  "version": "171.0.0",
+  "homepage": "https://observablehq.com/d/ad189f0d65d5cc00",
+  "author": {
+    "name": "Sagar Parazuli's Workspace",
+    "url": "https://observablehq.com/@sagar-parazuli-ws"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}

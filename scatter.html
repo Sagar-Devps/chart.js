@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Moving Moon and Stars</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    /* Style the chart container */
+    #chart-container {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
+      position: relative;
+    }
+    svg {
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart-container">
+    <svg id="svg-container" width="100%" height="100%">
+      <!-- Empty SVG container -->
+    </svg>
+  </div>
+
+  <script>
+    // Set up the SVG container using D3.js
+    const svg = d3.select("#svg-container");
+
+    // Add moon in the center
+    const moon = svg.append("circle")
+      .attr("cx", window.innerWidth / 2)
+      .attr("cy", window.innerHeight / 2)
+      .attr("r", 50) // Radius of the moon
+      .attr("fill", "#F9F7ED"); // Moon color
+
+    // Generate random stars for the night sky
+    const numStars = 1000; // Adjust the number of stars as needed
+    const starsData = Array.from({ length: numStars }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      size: Math.random() * 2, // Adjust star size
+      opacity: Math.random() // Vary star opacity
+    }));
+
+    // Draw circles as stars in the sky
+    const stars = svg.selectAll("circle.star")
+      .data(starsData)
+      .enter()
+      .append("circle")
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y)
+      .attr("r", d => d.size)
+      .attr("fill", "#FFF") // White-colored stars
+      .attr("opacity", d => d.opacity);
+ 
+    // Function to animate moon's movement
+    function animateMoon() {
+      moon.transition()
+        .duration(5000000) // Duration of moon's movement (10s per minute for 1 hour)
+        .attrTween("cx", function () {
+          return function (t) {
+            return (window.innerWidth / 2) - (window.innerWidth * t);
+          }
+        })
+        .on("end", function () {
+          moon.attr("cx", window.innerWidth / 2); // Reset moon position after reaching the edge
+        })
+        .transition()
+        .delay(60000) // Delay before the next movement starts (1 minute)
+        .on("start", animateMoon); // Repeat the moon's movement
+    }
+
+    // Start the moon's movement animation
+    animateMoon();
+  </script>
+</body>
+</html>

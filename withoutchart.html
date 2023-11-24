@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Bar Chart</title>
+  <style>
+    /* Style the chart container */
+    #chart-container {
+      width: 80%;
+      margin: auto;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart-container">
+    <canvas id="myChart" width="600" height="400"></canvas>
+  </div>
+
+  <script>
+    // Sample data for the chart
+    const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+    const data1 = [10, 20, 15, 30, 25, 35];
+    const data2 = [5, 15, 10, 25, 20, 30];
+    const colors = ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)'];
+
+    // Get the canvas element and its context
+    var canvas = document.getElementById('myChart');
+    var ctx = canvas.getContext('2d');
+
+    // Set the chart dimensions
+    var chartWidth = canvas.width;
+    var chartHeight = canvas.height;
+    var barWidth = 40; // Width of each bar
+    var barSpacing = 20; // Spacing between bars
+
+    // Function to draw the bars
+    function drawBars(data, color, xOffset) {
+      var startX = (chartWidth - ((barWidth + barSpacing) * data.length - barSpacing)) / 2 + xOffset;
+
+      for (var i = 0; i < data.length; i++) {
+        var barHeight = (data[i] / 40) * chartHeight; // Scale data to fit the chart
+        ctx.fillStyle = color;
+        ctx.fillRect(startX, chartHeight - barHeight, barWidth, barHeight);
+        startX += barWidth + barSpacing;
+      }
+    }
+
+    // Draw the chart using the sample data
+    drawBars(data1, colors[0], 0);
+    drawBars(data2, colors[1], 60);
+  </script>
+</body>
+</html>

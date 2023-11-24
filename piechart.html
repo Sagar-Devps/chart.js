@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pie Chart Example</title>
+      <!-- Include Chart.js -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <!-- Include Chart.js datalabels plugin -->
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+    <canvas id="myPieChart" width="400" height="400"></canvas>
+
+    <script>
+var data = {
+    labels: ["Afghanistan", "Bangladesh", "Bhutan", "Brunei", "Cambodia", "China", "India", "Indonesia", "Japan", "Korea, North", "Korea, South", "Laos", "Malaysia", "Maldives", "Mongolia", "Myanmar", "Nepal", "Pakistan", "Philippines", "Singapore", "Sri Lanka", "Taiwan", "Thailand", "Vietnam"],
+    datasets: [{
+        data: [20, 15, 12, 10, 18, 16, 21, 17, 19, 25, 23, 14, 13, 11, 9, 18, 16, 20, 19, 8, 15, 12, 14, 17],
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(54, 162, 235, 0.8)',
+            'rgba(255, 206, 86, 0.8)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(153, 102, 255, 0.8)',
+            'rgba(255, 159, 64, 0.8)',
+            // Add more colors if needed
+        ],
+    }]
+};
+
+var ctx = document.getElementById('myPieChart').getContext('2d');
+
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 2,
+        plugins: {
+            legend: {
+                position: 'right',
+            },
+            datalabels: {
+                color: 'black',
+                formatter: (value, ctx) => {
+                    let sum = ctx.dataset._meta[0].total;
+                    let percentage = (value * 100 / sum).toFixed(1) + "%";
+                    return percentage;
+                },
+                font: {
+                    size: '14',
+                    weight: 'bold',
+                },
+            },
+        },
+        tooltips: {
+            enabled: false, // Disable tooltips
+        },
+        interaction: {
+            mode: 'index', // Enable slice selection
+        },
+    }
+});
+function animateChart() {
+            let rotation = 0;
+            const interval = setInterval(() => {
+                rotation += 10; // Adjust the rotation speed
+                myPieChart.options.rotation = rotation;
+                myPieChart.update();
+                if (rotation >= 360) {
+                    clearInterval(interval);
+                }
+            }, 50); // Adjust the interval for smoother animation
+        }
+        animateChart(); // Start the animation
+    </script>
+</body>
+</html>
